@@ -225,7 +225,6 @@ namespace ConsoleApplication1
 			{
 				Assert.AreEqual(nextTest.getExpectedResult(), nextTest.getActualResult());
 			} 
-
         }
     }
 }

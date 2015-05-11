@@ -131,13 +131,17 @@ namespace ConsoleApplication1{
                 case "DeviceSetting":
                     result = await RunGetAsync(currentTest.getOperation().getUri());
                     currentTest.setActualResult(result);
-                    Console.WriteLine(result + " Is the result of the dang test");
+                    Console.WriteLine(result + " Is the result of the DeviceSetting test");
                     break;
                 case "DeviceBackup":
-                    //Do thing
+                    result = await RunPostAsync(currentTest.getOperation().getUri(), currentTest.getOperation().getJson());
+                    currentTest.setActualResult(result);
+                    Console.WriteLine(result + "Is the result of the DeviceBackup test");
                     break;
                 case "DeviceStatus":
-                    //Do thing
+                    result = await RunPostAsync(currentTest.getOperation().getUri(), currentTest.getOperation().getJson());
+                    currentTest.setActualResult(result);
+                    Console.WriteLine(result + "Is the result of the DeviceStatus test");
                     break;
                 default:
                     Console.WriteLine("Unrecognized test type!");

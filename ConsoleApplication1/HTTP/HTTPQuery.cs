@@ -25,19 +25,23 @@ namespace ConsoleApplication1
         {
             switch (param)
             {
-                case QueryParameter.intId:
-                    Console.WriteLine("You didn't set this query type up yet...");
-                    return false;
-
                 case QueryParameter.i:
                     foreach (string nextSerialNumber in ValidSerialNumbers.getAll())
                     {
+                        if (value == null)
+                        {
+                            return false;
+                        }
                         if (value.Equals(nextSerialNumber))
                         {
                             return true;
                         }
                     }
                     Console.WriteLine("Invalid device serial number");
+                    return false;
+
+                case QueryParameter.intId:
+                    Console.WriteLine("You didn't set this query type up yet...");
                     return false;
 
                 case QueryParameter.locId:

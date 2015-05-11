@@ -11,28 +11,45 @@ namespace ConsoleApplication1
         static Uri testServer = new Uri("http://cozumotesttls.cloudapp.net");
 
         [TestMethod]
-        public async Task TestMethod1()
+        public async Task ICmdTest()
         {
-            ICmd testICmd = new ICmd(testServer, ValidSerialNumbers.getAll()[0]);
+            //Valid
+            ICmd validICmd = new ICmd(testServer, ValidSerialNumbers.getAll()[0]);
+            //Invalid
+            ICmd invalidICmd = new ICmd(testServer, "No beef like dead beef");
+            //Missing
+            ICmd missingICmd = new ICmd(testServer, null);
 
-            Test radTest = new Test(testICmd);
+            Test validTest = new Test(validICmd);
+            Test invalidTest = new Test(invalidICmd);
+            Test missingTest = new Test(missingICmd);
 
+            /*
             DeviceScanJSON testJson = new DeviceScanJSON ();
             testJson.i = ValidSerialNumbers.getAll()[1];
             testJson.d = "ayyy lmao";
             testJson.s = 4;
             DeviceScan testDScan = new DeviceScan(testServer, testJson);
             Test ayyyTest = new Test(testDScan);
-
+            */
+             
             List<Test> tests = new List<Test>();
-            tests.Add(radTest);
-            tests.Add(ayyyTest);
+            tests.Add(validTest);
+            tests.Add(invalidTest);
+            tests.Add(missingTest);
 
             await Program.buildTests(tests);
+
             foreach (Test nextTest in Program.tests)
             {
-                Assert.AreEqual(nextTest.getActualResult(), nextTest.getExpectedResult());
+                Assert.AreEqual(nextTest.getExpectedResult(), nextTest.getActualResult());
             }
+        }
+
+        [TestMethod]
+        public async Task DeviceBackupTest()
+        {
+
         }
     }
 }

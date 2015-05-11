@@ -14,15 +14,13 @@ namespace ConsoleApplication1{
     {
         static List<string> serialNumbers;
 
-        //TODO: Add some setters and getters for this
-        public static List<Test> tests;
+        static List<Test> tests;
 
         static Timer time;
         static int seconds;
 
         static StreamWriter results;
 
-        static string inputFile = "A2.csv";
         //Output format (by column):
         //Test
         //Expected value
@@ -76,7 +74,7 @@ namespace ConsoleApplication1{
         }
 
         //Do test, output results to file.
-        static async Task runTest(Test currentTest)
+        public static async Task runTest(Test currentTest)
         {
             //Get start time
             int startTime = seconds;
@@ -147,46 +145,6 @@ namespace ConsoleApplication1{
                     break;
             }
         }
-
-        //Loads test cases into a list - OUTDATED
-        //Test loading no longer done by input file, should be parameter(?)
-        /*
-        static void loadTestCases()
-        {
-            try
-            {
-                StreamReader input = new StreamReader(inputFile);
-                String nextLine;
-                List<String> testContents = new List<String>();
-                while (!input.EndOfStream)
-                {
-                    nextLine = input.ReadLine();
-                    //Reads in assuming file is a CSV
-                    while (nextLine.Contains(","))
-                    {
-                        //Test output
-                        Console.WriteLine(nextLine);
-                        nextLine.IndexOf(',');
-                        testContents.Add(nextLine.Substring(0, nextLine.IndexOf(',')));
-                        //May not need the +1
-                        nextLine = nextLine.Substring(nextLine.IndexOf(',') + 1);
-                    }
-                    //Grab last cell
-                    testContents.Add(nextLine);
-                    //Turn it into a Test
-                    Test newTest = new Test(testContents);
-                    //Add test to the pile
-                    tests.Add(newTest);
-                }
-                input.Close();
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("Failed to load test cases!");
-            }
-        }
-        */
-
 
         //TODO: Go over HTTP methods, clean 'em up and make them not broken - return tasks, what have you.
         //GET call
@@ -311,6 +269,16 @@ namespace ConsoleApplication1{
                 Console.WriteLine("DELETE request failed.");
                 Console.WriteLine("URL: " + qUri.ToString());
             }
+        }
+
+        public static List<Test> getTests()
+        {
+            return tests;
+        }
+
+        public static void setTests(List<Test> newTests)
+        {
+            tests = newTests;
         }
 
         //Whenever timer interval is reached, increments counter.

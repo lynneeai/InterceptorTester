@@ -24,15 +24,6 @@ namespace ConsoleApplication1
             Test invalidTest = new Test(invalidICmd);
             Test missingTest = new Test(missingICmd);
 
-            /*
-            DeviceScanJSON testJson = new DeviceScanJSON ();
-            testJson.i = ValidSerialNumbers.getAll()[1];
-            testJson.d = "ayyy lmao";
-            testJson.s = 4;
-            DeviceScan testDScan = new DeviceScan(testServer, testJson);
-            Test ayyyTest = new Test(testDScan);
-            */
-             
             List<Test> tests = new List<Test>();
             tests.Add(validTest);
             tests.Add(invalidTest);
@@ -40,7 +31,7 @@ namespace ConsoleApplication1
 
             await Program.buildTests(tests);
 
-            foreach (Test nextTest in Program.tests)
+            foreach (Test nextTest in Program.getTests())
             {
                 Assert.AreEqual(nextTest.getExpectedResult(), nextTest.getActualResult());
             }
@@ -48,6 +39,40 @@ namespace ConsoleApplication1
 
         [TestMethod]
         public async Task DeviceBackupTest()
+        {
+
+        }
+
+        [TestMethod]
+        public async Task DeviceScanTest()
+        {
+
+            DeviceScanJSON testJson = new DeviceScanJSON ();
+            testJson.i = ValidSerialNumbers.getAll()[1];
+            testJson.d = "ayyy lmao";
+            testJson.s = 4;
+            DeviceScan testDScan = new DeviceScan(testServer, testJson);
+            Test ayyyTest = new Test(testDScan);
+
+            List<Test> tests = new List<Test>();
+            tests.Add(ayyyTest);
+
+            await Program.buildTests(tests);
+
+            foreach (Test nextTest in Program.getTests())
+            {
+                Assert.AreEqual(nextTest.getExpectedResult(), nextTest.getActualResult());
+            }            
+        }
+
+        [TestMethod]
+        public async Task DeviceSettingTest()
+        {
+
+        }
+
+        [TestMethod]
+        public async Task DeviceStatusTest()
         {
 
         }

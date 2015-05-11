@@ -131,7 +131,7 @@ namespace ConsoleApplication1{
                 case "DeviceSetting":
                     result = await RunGetAsync(currentTest.getOperation().getUri());
                     currentTest.setActualResult(result);
-                    Console.WriteLine(result + " Is the result of the dang test");
+                    Console.WriteLine(result + " Is the result of the DeviceSetting test");
                     break;
                 case "DeviceBackup":
                     result = await RunPostAsync(currentTest.getOperation().getUri(), currentTest.getOperation().getJson());

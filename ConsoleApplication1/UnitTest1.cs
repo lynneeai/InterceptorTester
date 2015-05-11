@@ -125,7 +125,7 @@ namespace ConsoleApplication1
 
 			// No Serial
 			DeviceSetting dSetting3 = new DeviceSetting(testServer, null);
-
+	
 			Test NoSerial = new Test(dSetting3);
 
 			List<Test> tests = new List<Test>();
@@ -139,7 +139,7 @@ namespace ConsoleApplication1
 			{
 				Assert.AreEqual(nextTest.getExpectedResult(), nextTest.getActualResult());
 			}
-        }
+    	}
 
         [TestMethod]
         public async Task DeviceStatusTest()

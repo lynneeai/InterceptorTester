@@ -8,7 +8,7 @@ namespace ConsoleApplication1
     [TestClass]
     public class UnitTest1
     {
-        static Uri testServer = new Uri("http://cozumotesttls.cloudapp.net");
+        static Uri testServer = ServerUris.getLatest();
 
         [TestMethod]
         public async Task ICmdTest()

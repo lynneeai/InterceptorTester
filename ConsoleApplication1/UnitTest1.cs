@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication1
 {
-    [TestClass]
+    //[TestClass]
     public class UnitTest1
     {
         static Uri testServer = new Uri("http://cozumotesttls.cloudapp.net");
 
-        [TestMethod]
+        //[TestMethod]
         public async Task ICmdTest()
         {
             //Valid
@@ -46,7 +46,7 @@ namespace ConsoleApplication1
             }
         }
 
-        [TestMethod]
+       // [TestMethod]
         public async Task DeviceBackupTest()
         {
 

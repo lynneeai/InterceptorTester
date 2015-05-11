@@ -60,7 +60,7 @@ namespace ConsoleApplication1{
             foreach (Test nextTest in tests)
             {
                 Console.WriteLine("Test #" + tests.IndexOf(nextTest) + ":");
-                results.WriteLine("Test #" + tests.IndexOf(nextTest) + ":");
+                //results.WriteLine("Test #" + tests.IndexOf(nextTest) + ":");
                 await runTest(nextTest);
             }
 
@@ -112,36 +112,35 @@ namespace ConsoleApplication1{
             }
         }
 
-        //TODO: Set up the different test types.
         static async Task testType (Test currentTest)
         {
-            string result;
+            KeyValuePair<JObject,string> result;
             switch (currentTest.ToString())
             {
                 case "iCmd":
                     result = await RunGetAsync(currentTest.getOperation().getUri());
-                    currentTest.setActualResult(result);
-                    Console.WriteLine(result + " Is the result of the iCmd test");
+                    currentTest.setActualResult(result.Key.GetValue("StatusCode").ToString());
+                    Console.WriteLine(result.Value + " Is the result of the iCmd test");
                     break;
                 case "DeviceScan":
                     result = await RunPostAsync(currentTest.getOperation().getUri(), currentTest.getOperation().getJson());
-                    currentTest.setActualResult(result);
-                    Console.WriteLine(result + "Is the result of the DeviceScan test");
+                    currentTest.setActualResult(result.Key.GetValue("StatusCode").ToString());
+                    Console.WriteLine(result.Value + "Is the result of the DeviceScan test");
                     break;
                 case "DeviceSetting":
                     result = await RunGetAsync(currentTest.getOperation().getUri());
-                    currentTest.setActualResult(result);
-                    Console.WriteLine(result + " Is the result of the DeviceSetting test");
+                    currentTest.setActualResult(result.Key.GetValue("StatusCode").ToString());
+                    Console.WriteLine(result.Value + " Is the result of the DeviceSetting test");
                     break;
                 case "DeviceBackup":
                     result = await RunPostAsync(currentTest.getOperation().getUri(), currentTest.getOperation().getJson());
-                    currentTest.setActualResult(result);
-                    Console.WriteLine(result + "Is the result of the DeviceBackup test");
+                    currentTest.setActualResult(result.Key.GetValue("StatusCode").ToString());
+                    Console.WriteLine(result.Value + "Is the result of the DeviceBackup test");
                     break;
                 case "DeviceStatus":
                     result = await RunPostAsync(currentTest.getOperation().getUri(), currentTest.getOperation().getJson());
-                    currentTest.setActualResult(result);
-                    Console.WriteLine(result + "Is the result of the DeviceStatus test");
+                    currentTest.setActualResult(result.Key.GetValue("StatusCode").ToString());
+                    Console.WriteLine(result.Value + "Is the result of the DeviceStatus test");
                     break;
                 default:
                     Console.WriteLine("Unrecognized test type!");
@@ -152,7 +151,7 @@ namespace ConsoleApplication1{
 
         //TODO: Go over HTTP methods, clean 'em up and make them not broken - return tasks, what have you.
         //GET call
-        static async Task<string> RunGetAsync(Uri qUri)
+        static async Task<KeyValuePair<JObject, string>> RunGetAsync(Uri qUri)
         {
             // ... Use HttpClient.
             try
@@ -160,22 +159,21 @@ namespace ConsoleApplication1{
                 using (HttpClient client = new HttpClient())
                 using (HttpResponseMessage response = await client.GetAsync(qUri.AbsoluteUri))
                 {
-                    using (HttpContent content = response.Content)
-                    {
-                        return await content.ReadAsStringAsync();
-                    }
+                    JObject jResponse = JObject.FromObject(response);
+                    string content = await response.Content.ReadAsStringAsync();
+                    return new KeyValuePair<JObject, string>(jResponse, content);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("GET request failed.");
                 Console.WriteLine("URL: " + qUri.ToString());
-                return null;
+                return new KeyValuePair<JObject, string>(null, null);
             }
         }
 
         //POST call
-        static async Task<string> RunPostAsync(Uri qUri, Object contentToPush)
+        static async Task<KeyValuePair<JObject, string>> RunPostAsync(Uri qUri, Object contentToPush)
         {
             try
             {
@@ -193,85 +191,65 @@ namespace ConsoleApplication1{
 
                     using (HttpResponseMessage response = await client.PostAsync(qUri, strContent))
                     {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            using (HttpContent content = response.Content)
-                            {
-                                // ... Read the string.
-                                string result = await content.ReadAsStringAsync();
-                                return result;
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine(response.ReasonPhrase);
-                            Console.WriteLine("Status Code: " + response.StatusCode.ToString());
-                        }
+                        JObject jResponse = JObject.FromObject(response);
+                        string content = await response.Content.ReadAsStringAsync();
+                        return new KeyValuePair<JObject, string>(jResponse, content);
                     }
                 }
-                return null;
+                return new KeyValuePair<JObject, string>(null, null);
             }
             catch (Exception e)
             {
                 Console.WriteLine("POST request failed.");
                 Console.WriteLine("URL: " + qUri.ToString());
                 Console.WriteLine("Content: " + contentToPush.ToString());
-                return null;
+                return new KeyValuePair<JObject, string>(null, null);
             }
         }
 
         //PUT call
-        static async void RunPutAsync(Uri qUri, HttpContent contentToPut)
+        static async Task<KeyValuePair<JObject, string>> RunPutAsync(Uri qUri, HttpContent contentToPut)
         {
             try
             {
                 // ... Use HttpClient.
                 using (HttpClient client = new HttpClient())
                 using (HttpResponseMessage response = await client.PutAsync(qUri, contentToPut))
-                using (HttpContent content = response.Content)
                 {
-                    // ... Read the string.
-                    string result = await content.ReadAsStringAsync();
-
-                    // ... Display the result.
-                    if (result != null)
-                    {
-                        Console.WriteLine(result);
-                    }
+                    JObject jResponse = JObject.FromObject(response);
+                    string content = await response.Content.ReadAsStringAsync();
+                    return new KeyValuePair<JObject, string>(jResponse, content);
                 }
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine("PUT request failed.");
                 Console.WriteLine("URL: " + qUri.ToString());
                 Console.WriteLine("Content: " + contentToPut.ToString());
+                return new KeyValuePair<JObject, string>(null, null);
             }
         }
 
         //DELETE call
-        static async void RunDeleteAsync (Uri qUri)
+        static async Task<KeyValuePair<JObject, string>> RunDeleteAsync(Uri qUri)
         {
             try
             {
                 // ... Use HttpClient.
                 using (HttpClient client = new HttpClient())
                 using (HttpResponseMessage response = await client.DeleteAsync(qUri))
-                using (HttpContent content = response.Content)
                 {
-                    // ... Read the string.
-                    string result = await content.ReadAsStringAsync();
-
-                    // ... Display the result.
-                    if (result != null)
-                    {
-                        Console.WriteLine(result);
-                    }
+                    JObject jResponse = JObject.FromObject(response);
+                    string content = await response.Content.ReadAsStringAsync();
+                    return new KeyValuePair<JObject, string>(jResponse, content);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("DELETE request failed.");
                 Console.WriteLine("URL: " + qUri.ToString());
+                return new KeyValuePair<JObject, string>(null,null);
             }
         }
 

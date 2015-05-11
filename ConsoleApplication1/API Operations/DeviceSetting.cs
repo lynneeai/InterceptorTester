@@ -18,7 +18,7 @@ namespace ConsoleApplication1
         //TODO: Implement expected result calculation
         public override string getExpectedResult()
         {
-            return "I have not a dang clue what this should be";
+            return "200";
         }
 
         public override string ToString()

@@ -105,6 +105,7 @@
     <Compile Include="API Operations\DeviceSetting.cs" />
     <Compile Include="API Operations\DeviceStatus.cs" />
     <Compile Include="API Operations\ICmd.cs" />
+    <Compile Include="JSON\DeviceBackupItemJSON.cs" />
     <Compile Include="JSON\DeviceBackupJSON.cs" />
     <Compile Include="JSON\DeviceScanJSON.cs" />
     <Compile Include="JSON\DeviceScanRequestJSON.cs" />

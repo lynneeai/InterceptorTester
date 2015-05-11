@@ -19,7 +19,7 @@ namespace ConsoleApplication1
         //TODO: Code this
 		public override string getExpectedResult()
 		{
-			throw new NotImplementedException();
+            return "201";
 		}
 
 		public override string ToString()

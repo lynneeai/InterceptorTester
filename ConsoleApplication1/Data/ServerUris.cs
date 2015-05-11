@@ -10,24 +10,31 @@ namespace ConsoleApplication1
     {
         static List<Uri> UriList;
 
-        public static List<Uri> getAllUris()
+        internal static List<Uri> getAllUris()
         {
-            buildList();
+            if (UriList == null)
+            {
+                buildList();
+            }
             return UriList;
         }
 
         //Get most up-to-date server
-        public static Uri getLatest()
+        internal static Uri getLatest()
         {
-            buildList();
+            if (UriList == null)
+            {
+                buildList();
+            }
             return UriList[0];
         }
 
         //Add new servers here, new ones at the top
         private static void buildList()
         {
-            Uri otherServer = new Uri("http://c1c735b6e41a4325897fb74bf2f8927c.cloudapp.net/");
-            Uri testServer = new Uri("http://cozumotesttls.cloudapp.net");
+            UriList = new List<Uri>();
+            UriList.Add(new Uri("http://c1c735b6e41a4325897fb74bf2f8927c.cloudapp.net/"));
+            UriList.Add(new Uri("http://cozumotesttls.cloudapp.net"));
         }
     }
 }

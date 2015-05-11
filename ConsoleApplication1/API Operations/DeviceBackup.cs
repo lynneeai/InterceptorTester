@@ -20,7 +20,7 @@ namespace ConsoleApplication1
         //TODO: Code this
 		public override string getExpectedResult()
 		{
-			throw new NotImplementedException();
+            return "201";
 		}
 
 		public override string ToString()
@@ -30,7 +30,7 @@ namespace ConsoleApplication1
 
         public override Uri getUri()
         {
-            return new Uri(opHost, "/api/DeviceBackup/" + opQuery.ToString());
+            return new Uri(opHost, "/api/DeviceBackup/");
         }
 
         public override object getJson()

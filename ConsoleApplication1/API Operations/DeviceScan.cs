@@ -20,7 +20,7 @@ namespace ConsoleApplication1
         //TODO: Implement this in a non-shitty way
         public override string getExpectedResult()
         {
-            return "";
+            return "201";
         }
 
         public override string ToString()

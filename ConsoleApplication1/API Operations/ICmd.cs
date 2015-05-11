@@ -21,9 +21,9 @@ namespace ConsoleApplication1
         {
             if (this.opQuery.isValid())
             {
-                return "0";
+                return "200";
             }
-            return "400";
+            return "500";
         }
 
         public override string ToString()
